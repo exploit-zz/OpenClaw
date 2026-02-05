@@ -1,0 +1,46 @@
+version: "3.9"
+
+services:
+  lnbits:
+    image: lnbits/lnbits:latest
+    container_name: lnbits
+    restart: always
+    ports:
+      - "5000:5000"
+    environment:
+      - LNBITS_DATA_FOLDER=/data
+      - LNBITS_DATABASE_URL=postgres://lnbits:lnbits@lnbits-db:5432/lnbits
+      - LNBITS_ADMIN_UI=true
+      - LNBITS_SITE_TITLE="OpenClaw Payments"
+      - LNBITS_SITE_TAGLINE="Get your AI agent running"
+      - LNBITS_ALLOWED_CORS=https://exploit-zz.github.io,https://localhost
+      - LNBITS_FEE_RESERVE=5000
+      - LNBITS_WALLET_CLASS=LnbitsWallet
+      - LNBITS_ADMIN_EXTENSIONS=fakewallet,withdraw,lnurlp
+    volumes:
+      - lnbits_data:/data
+    depends_on:
+      - lnbits-db
+    networks:
+      - lnbits_network
+
+  lnbits-db:
+    image: postgres:15-alpine
+    container_name: lnbits-db
+    restart: always
+    environment:
+      - POSTGRES_USER=lnbits
+      - POSTGRES_PASSWORD=lnbits
+      - POSTGRES_DB=lnbits
+    volumes:
+      - lnbits_db:/var/lib/postgresql/data
+    networks:
+      - lnbits_network
+
+volumes:
+  lnbits_data:
+  lnbits_db:
+
+networks:
+  lnbits_network:
+    driver: bridge
