@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Status - OpenClaw Installation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .order-info {
+            background: #f9fafb;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .order-info .row {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .order-info .row:last-child {
+            border-bottom: none;
+        }
+
+        .order-info .label {
+            color: #6b7280;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .order-info .value {
+            color: #374151;
+            font-weight: 500;
+        }
+
+        .status-timeline {
+            margin: 30px 0;
+        }
+
+        .status-timeline h2 {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+            color: #667eea;
+            font-weight: 700;
+        }
+
+        .timeline-item {
+            display: flex;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .timeline-item.completed .status-icon {
+            background: #10b981;
+        }
+
+        .timeline-item.completed .status-text {
+            color: #10b981;
+            font-weight: 600;
+        }
+
+        .timeline-item.in-progress .status-icon {
+            background: #f59e0b;
+            animation: pulse 2s infinite;
+        }
+
+        .timeline-item.pending .status-icon {
+            background: #e5e7eb;
+        }
+
+        .timeline-item.pending .status-text {
+            color: #9ca3af;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .status-icon {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 0.9em;
+            font-weight: 700;
+            flex-shrink: 0;
+        }
+
+        .status-text {
+            flex: 1;
+            padding-top: 5px;
+        }
+
+        .status-title {
+            font-weight: 600;
+            margin-bottom: 3px;
+        }
+
+        .status-time {
+            font-size: 0.85em;
+            color: #6b7280;
+        }
+
+        .logs-container {
+            background: #1f2937;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .logs-container h3 {
+            color: #10b981;
+            font-size: 1em;
+            margin-bottom: 15px;
+            font-weight: 600;
+        }
+
+        .logs {
+            font-family: 'Courier New', monospace;
+            font-size: 0.85em;
+            color: #d1d5db;
+            line-height: 1.6;
+            max-height: 300px;
+            overflow-y: auto;
+            background: #111827;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .log-line {
+            margin-bottom: 5px;
+        }
+
+        .log-line.success {
+            color: #10b981;
+        }
+
+        .log-line.error {
+            color: #ef4444;
+        }
+
+        .log-line.warning {
+            color: #f59e0b;
+        }
+
+        .log-line.info {
+            color: #3b82f6;
+        }
+
+        .actions {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 24px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform 0.2s;
+            margin: 5px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn.secondary {
+            background: #6b7280;
+        }
+
+        .completion-message {
+            background: #d1fae5;
+            border: 2px solid #10b981;
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .completion-message h3 {
+            color: #065f46;
+            font-size: 1.3em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .completion-message p {
+            color: #047857;
+            line-height: 1.6;
+        }
+
+        .completion-message .emoji {
+            font-size: 3em;
+            margin-bottom: 10px;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 Order Status</h1>
+            <p>Track your OpenClaw installation</p>
+        </div>
+
+        <div class="content">
+            <div class="order-info">
+                <div class="row">
+                    <div class="label">Order ID:</div>
+                    <div class="value" id="order-id">Loading...</div>
+                </div>
+                <div class="row">
+                    <div class="label">Service:</div>
+                    <div class="value">OpenClaw Installation</div>
+                </div>
+                <div class="row">
+                    <div class="label">Price:</div>
+                    <div class="value">8,000 sats (~$35)</div>
+                </div>
+                <div class="row">
+                    <div class="label">Ordered:</div>
+                    <div class="value" id="order-date">Loading...</div>
+                </div>
+            </div>
+
+            <div class="status-timeline">
+                <h2>🚀 Installation Progress</h2>
+
+                <div class="timeline-item completed">
+                    <div class="status-icon">✓</div>
+                    <div class="status-text">
+                        <div class="status-title">Payment Received</div>
+                        <div class="status-time" id="payment-time">Just now</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item in-progress">
+                    <div class="status-icon">⚡</div>
+                    <div class="status-text">
+                        <div class="status-title">Connecting to Server</div>
+                        <div class="status-time">Connecting via SSH...</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item pending">
+                    <div class="status-icon">⏳</div>
+                    <div class="status-text">
+                        <div class="status-title">Installing OpenClaw</div>
+                        <div class="status-time">Pending</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item pending">
+                    <div class="status-icon">⏳</div>
+                    <div class="status-text">
+                        <div class="status-title">Configuring Bot</div>
+                        <div class="status-time">Pending</div>
+                    </div>
+                </div>
+
+                <div class="timeline-item pending">
+                    <div class="status-icon">⏳</div>
+                    <div class="status-text">
+                        <div class="status-title">Installation Complete</div>
+                        <div class="status-time">Pending</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="logs-container">
+                <h3>📜 Installation Logs</h3>
+                <div class="logs" id="logs">
+                    <div class="log-line info">[INFO] Starting installation process...</div>
+                    <div class="log-line info">[INFO] Connecting to server...</div>
+                </div>
+            </div>
+
+            <div class="actions">
+                <button class="btn" onclick="window.location.reload()">🔄 Refresh Status</button>
+                <a href="index.html" class="btn secondary">← Back to Home</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Get order ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const orderId = urlParams.get('order');
+
+        if (orderId) {
+            document.getElementById('order-id').textContent = orderId;
+
+            // Set order date (mock)
+            const orderDate = new Date();
+            document.getElementById('order-date').textContent = orderDate.toLocaleString();
+
+            // Simulate installation logs
+            const logs = document.getElementById('logs');
+            const logMessages = [
+                { type: 'info', text: '[INFO] Starting installation process...' },
+                { type: 'info', text: '[INFO] Connecting to server via SSH...' },
+                { type: 'success', text: '[SUCCESS] SSH connection established' },
+                { type: 'info', text: '[INFO] Checking OS compatibility...' },
+                { type: 'info', text: '[INFO] Detected: Linux' },
+                { type: 'info', text: '[INFO] Installing Node.js...' },
+                { type: 'success', text: '[SUCCESS] Node.js 22.22.0 installed' },
+                { type: 'info', text: '[INFO] Installing OpenClaw CLI...' },
+                { type: 'success', text: '[SUCCESS] OpenClaw installed' },
+                { type: 'info', text: '[INFO] Configuring OpenClaw...' },
+                { type: 'success', text: '[SUCCESS] Configuration complete' },
+                { type: 'info', text: '[INFO] Setting up Telegram bot...' },
+                { type: 'success', text: '[SUCCESS] Installation complete!' },
+            ];
+
+            let currentIndex = 0;
+
+            function addLog() {
+                if (currentIndex < logMessages.length) {
+                    const log = logMessages[currentIndex];
+                    const logLine = document.createElement('div');
+                    logLine.className = `log-line ${log.type}`;
+                    logLine.textContent = `[${new Date().toLocaleTimeString()}] ${log.text}`;
+                    logs.appendChild(logLine);
+                    logs.scrollTop = logs.scrollHeight;
+
+                    currentIndex++;
+                    setTimeout(addLog, Math.random() * 1000 + 500);
+                } else {
+                    // Show completion message
+                    setTimeout(() => {
+                        const completionDiv = document.createElement('div');
+                        completionDiv.className = 'completion-message';
+                        completionDiv.innerHTML = `
+                            <span class="emoji">🎉</span>
+                            <h3>Installation Complete!</h3>
+                            <p>Your AI agent is now running. Check your Telegram bot for commands.</p>
+                        `;
+                        document.querySelector('.content').appendChild(completionDiv);
+                    }, 1000);
+                }
+            }
+
+            // Start logging after 2 seconds
+            setTimeout(addLog, 2000);
+
+            // Refresh status every 10 seconds
+            setInterval(() => {
+                // In production, fetch real status from API
+                console.log('Refreshing order status...');
+            }, 10000);
+        } else {
+            // No order ID - redirect to home
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>

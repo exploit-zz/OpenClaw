@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order OpenClaw Installation - Complete Your Order</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            max-width: 600px;
+            width: 100%;
+            overflow: hidden;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .content {
+            padding: 30px;
+        }
+
+        .step {
+            margin-bottom: 30px;
+        }
+
+        .step-title {
+            font-size: 1.2em;
+            font-weight: 700;
+            color: #667eea;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-weight: 700;
+        }
+
+        .qr-container {
+            text-align: center;
+            margin: 20px 0;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+        }
+
+        .qr-container img {
+            max-width: 250px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .qr-container .hint {
+            margin-top: 10px;
+            color: #6b7280;
+            font-size: 0.9em;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #374151;
+            font-weight: 600;
+            font-size: 0.9em;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1em;
+            font-family: inherit;
+            transition: border-color 0.2s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .form-group .hint {
+            margin-top: 5px;
+            color: #6b7280;
+            font-size: 0.85em;
+        }
+
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin-top: 20px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: none;
+        }
+
+        .payment-status {
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .payment-status.waiting {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .payment-status.paid {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .price-display {
+            text-align: center;
+            padding: 20px;
+            background: #f9fafb;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+
+        .price-display .amount {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #667eea;
+        }
+
+        .price-display .currency {
+            font-size: 0.9em;
+            color: #6b7280;
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 20px;
+            color: #6b7280;
+        }
+
+        .back-link a {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>⚡ Complete Your Order</h1>
+            <p>OpenClaw Installation - Get your AI agent in 15 minutes</p>
+        </div>
+
+        <div class="content">
+            <div class="price-display">
+                <div class="amount">8,000 sats</div>
+                <div class="currency">~$35 USD • Instant delivery</div>
+            </div>
+
+            <!-- Step 1: Payment -->
+            <div class="step">
+                <div class="step-title">
+                    <div class="step-number">1</div>
+                    Pay with Lightning
+                </div>
+
+                <div class="qr-container">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=250x250&data=lnurl1dp68gurn8hj6mr" alt="LNURL QR Code" id="qr-code">
+                    <div class="hint">Scan with Bitcoin Lightning wallet</div>
+                </div>
+
+                <div class="payment-status waiting" id="payment-status">
+                    ⏳ Waiting for payment...
+                </div>
+            </div>
+
+            <!-- Step 2: Order Details -->
+            <div class="step" id="order-details" style="display: none;">
+                <div class="step-title">
+                    <div class="step-number">2</div>
+                    Provide SSH Details
+                </div>
+
+                <form id="order-form">
+                    <div class="form-group">
+                        <label for="ssh-host">SSH Host (IP address or domain)</label>
+                        <input type="text" id="ssh-host" name="ssh-host" placeholder="192.168.1.100 or server.example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ssh-user">SSH Username</label>
+                        <input type="text" id="ssh-user" name="ssh-user" placeholder="root or ubuntu" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ssh-port">SSH Port (default: 22)</label>
+                        <input type="number" id="ssh-port" name="ssh-port" value="22" placeholder="22">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ssh-key">SSH Private Key (or password)</label>
+                        <textarea id="ssh-key" name="ssh-key" rows="4" placeholder="-----BEGIN OPENSSH PRIVATE KEY-----&#10;...&#10;-----END OPENSSH PRIVATE KEY-----" required></textarea>
+                        <div class="hint">Paste your private key here (secure)</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="telegram">Telegram Username (for notifications)</label>
+                        <input type="text" id="telegram" name="telegram" placeholder="@your_username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email (optional, for order confirmation)</label>
+                        <input type="email" id="email" name="email" placeholder="you@example.com">
+                    </div>
+
+                    <button type="submit" class="btn" id="submit-btn">
+                        🚀 Start Installation
+                    </button>
+                </form>
+            </div>
+
+            <div class="back-link">
+                <a href="index.html">← Back to marketplace</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Simulate payment check (replace with real webhook)
+        setTimeout(() => {
+            document.getElementById('payment-status').className = 'payment-status paid';
+            document.getElementById('payment-status').innerHTML = '✅ Payment received! Please provide your SSH details below.';
+            document.getElementById('order-details').style.display = 'block';
+        }, 3000);
+
+        // Form submission
+        document.getElementById('order-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const submitBtn = document.getElementById('submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '⏳ Starting installation...';
+
+            const formData = new FormData(e.target);
+            const orderData = {
+                sshHost: formData.get('ssh-host'),
+                sshUser: formData.get('ssh-user'),
+                sshPort: formData.get('ssh-port') || 22,
+                sshKey: formData.get('ssh-key'),
+                telegram: formData.get('telegram'),
+                email: formData.get('email'),
+                timestamp: new Date().toISOString(),
+                orderId: 'ORD-' + Date.now()
+            };
+
+            console.log('Order submitted:', orderData);
+
+            // In production, send to backend API
+            try {
+                const response = await fetch('/api/order', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(orderData)
+                });
+
+                if (response.ok) {
+                    alert('🎉 Order submitted! Your AI agent is being installed.');
+                    // Redirect to order tracking page
+                    window.location.href = `status.html?order=${orderData.orderId}`;
+                } else {
+                    alert('❌ Error submitting order. Please try again.');
+                    submitBtn.disabled = false;
+                    submitBtn.innerHTML = '🚀 Start Installation';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('❌ Connection error. Please try again.');
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '🚀 Start Installation';
+            }
+        });
+    </script>
+</body>
+</html>

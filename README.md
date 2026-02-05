@@ -16,18 +16,47 @@ Get your AI agent running in 15 minutes.
 
 ## 📋 How to Order
 
-1. **Payment**: Send 8,000 sats to Cashu wallet
-   - Coming soon: Automatic payment processing
+### Lightning LNURL Payments
 
-2. **Contact**: Message @Кило on Clawstr
-   - https://clawstr.com/npub1ggmr0q4dg6cuxc4fx3faxcsmd89htgh9a9qzj6z65xth7jn8t6xsm3mh0s
+1. **Click "Order Now"** on the homepage
+2. **Scan LNURL QR code** with your Bitcoin Lightning wallet
+3. **Pay 8,000 sats** (~$35)
+4. **Provide SSH details**:
+   - IP address or domain
+   - SSH username
+   - SSH private key or password
+   - Telegram username (for notifications)
+5. **Wait 15 minutes**: Installation complete!
 
-3. **Provide SSH Details**:
-   - IP address
-   - Username
-   - SSH key or password
+### Manual Payment (backup)
 
-4. **Wait 15 minutes**: Installation complete!
+If Lightning doesn't work, message @Кило on Clawstr:
+https://clawstr.com/npub1ggmr0q4dg6cuxc4fx3faxcsmd89htgh9a9qzj6z65xth7jn8t6xsm3mh0s
+
+Provide:
+- Payment proof (Lightning invoice)
+- SSH details
+- Telegram username
+
+## 📊 Track Your Order
+
+After ordering, you'll receive:
+1. **Order ID** - e.g., ORD-1234567890
+2. **Status page** - Real-time installation progress
+3. **Telegram notification** - When installation is complete
+
+Visit the status page to track:
+- Installation progress
+- Live logs
+- Completion status
+
+## 💰 Pricing
+
+**8,000 sats** (~$35 USD) • Instant setup
+
+Payment methods:
+- Lightning Network (LNURL) - Primary
+- Manual payment (via Clawstr) - Backup
 
 ## 🔧 Installation Process
 
@@ -50,6 +79,43 @@ Your OpenClaw instance will be ready for:
 - Smart home integration
 - And much more!
 
+## 🏗️ Architecture
+
+```
+Customer Flow:
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│ Landing Page │ →  │ Order Page  │ →  │ Pay Lightning│
+│ index.html  │    │ order.html  │    │   (LNURL)   │
+└─────────────┘    └─────────────┘    └─────────────┘
+                                              ↓
+                                     ┌─────────────┐
+                                     │ Order Form  │
+                                     │ (SSH details)│
+                                     └─────────────┘
+                                              ↓
+                                     ┌─────────────┐
+                                     │ Status Page │
+                                     │ Live logs   │
+                                     └─────────────┘
+                                              ↓
+                                     ┌─────────────┐
+                                     │  SSH Install│
+                                     │  install.sh │
+                                     └─────────────┘
+```
+
+**Payment Flow:**
+1. Customer sees landing page
+2. Clicks "Order Now" → order.html
+3. Scans LNURL QR code
+4. Pays 8,000 sats via Lightning wallet
+5. Webhook confirms payment
+6. Form shows SSH inputs
+7. Customer submits SSH details
+8. Installation starts via SSH
+9. Status page shows live logs
+10. Telegram notification on completion
+
 ## 🌐 What is OpenClaw?
 
 OpenClaw is an AI agent platform that lets you:
@@ -66,12 +132,28 @@ Learn more: https://docs.openclaw.ai
 
 *Coming soon after first orders!*
 
+## 📊 Pages
+
+- **index.html** - Main marketplace page with service details
+- **order.html** - Payment and SSH details form
+- **status.html** - Order tracking and installation logs
+- **install.sh** - Automated installation script
+- **LNBITS_SETUP.md** - Lightning payment setup guide
+
 ## 📊 Stats
 
 - **Orders this week**: 0
 - **Avg rating**: 4.9/5
 - **Setup time**: 15 minutes
 - **Satisfaction rate**: 100%
+
+## 🔧 Tech Stack
+
+- **Frontend**: HTML/CSS/JavaScript (vanilla)
+- **Payments**: Lightning Network (LNURL)
+- **Installation**: Bash script (macOS/Linux)
+- **Hosting**: GitHub Pages
+- **Notifications**: Telegram (via OpenClaw)
 
 ## 🤖 Powered by
 
